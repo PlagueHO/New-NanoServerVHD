@@ -8,11 +8,7 @@
         DO NOT USE THIS WITH EARLIER VERSIONS OF WINDOWS SERVER 2016 TP4 OR EARLIER.
 
         This script needs the Convert-WindowsImage.ps1 script to be in the same folder. It will be automatically downloaded from if it is not found:
-        https://github.com/Microsoft/Virtualization-Documentation/blob/master/hyperv-tools/Convert-WindowsImage/Convert-WindowsImage.ps1
-
-        Note: Due to a bug in the version of the Convert-WindowsImage.ps1 on Microsoft Script Center, you should use the one from GitHub. The unfixed version can be downloaded from:
-        https://gallery.technet.microsoft.com/scriptcenter/Convert-WindowsImageps1-0fe23a8f
-        IT WILL NOT CURRENTLY WORK WITH NANO SERVER TP4 or above.
+        https://raw.githubusercontent.com/PlagueHO/New-NanoServerVHD/master/Convert-WindowsImage.ps1
 
         This function turns the instructions on the following link into a repeatable script:
         https://technet.microsoft.com/en-us/library/mt126167.aspx
@@ -86,11 +82,11 @@
     Allows the content of the Unattended.XML file to be overridden. Provide the content of a new Unattended.XML file in this parameter.
 
     .PARAMETER Edition
-    This is the index name of the edition to install from the NanoServer.WIM. It defaults to CORESYSTEMSERVER_INSTALL and should
-    not usually be changed.
+    This is the index name of the edition to install from the NanoServer.WIM. It defaults to 'Windows Server 2016 Technical Preview 5 SERVERSTANDARDNANO'.
 
     As of TP5, there are two versions in the NanoServer.WIM:
-    CORESYSTEMSERVER_INSTALL
+    Windows Server 2016 Technical Preview 5 SERVERSTANDARDNANO
+    Windows Server 2016 Technical Preview 5 SERVERDATACENTERNANO
 
     .PARAMETER Timezone
     This is the timezone the new NanoServer will be set to. If not provided it will default to Pacific Standard Time.
@@ -213,7 +209,7 @@ Param (
     [String]$UnattendedContent,
 
     [ValidateNotNullOrEmpty()]
-    [String]$Edition = 'CORESYSTEMSERVER_INSTALL',
+    [String]$Edition = 'Windows Server 2016 Technical Preview 5 SERVERSTANDARDNANO',
         
     [ValidateNotNullOrEmpty()]
     [String]$Timezone = 'Pacific Standard Time',
@@ -231,7 +227,7 @@ Param (
 If (-not (Test-Path -Path .\Convert-WindowsImage.ps1 -PathType Leaf)) {
     Write-Host 'Downloading the Convert-WindowsImage.ps1 script from GitHub'
     Invoke-WebRequest `
-        -Uri $URL `
+        -Uri 'https://raw.githubusercontent.com/PlagueHO/New-NanoServerVHD/master/Convert-WindowsImage.ps1' `
         -OutFile .\Convert-WindowsImage.ps1 `
 }
 
@@ -300,8 +296,8 @@ If ($IPaddress)
 [String]$MountFolder = Join-Path -Path $WorkFolder -ChildPath 'Mount'
 [String]$TempVHDName = "NanoServer.$VHDFormat"
 Switch ($VHDFormat) {
-    'VHD' { [String]$VHDPartitionStyle = 'MBR' }
-    'VHDx' { [String]$VHDPartitionStyle = 'GPT' }
+    'VHD' { [String]$DiskLayout = 'BIOS' }
+    'VHDx' { [String]$DiskLayout = 'UEFI' }
 }
 
 # Create working folder
@@ -339,7 +335,7 @@ if ($CacheFolder) {
             -VHD $CachedVHD `
             –VHDFormat $VHDFormat `
             -Edition $Edition `
-            -VHDPartitionStyle $VHDPartitionStyle
+            -DiskLayout $DiskLayout
     }
     $null = Copy-Item -Path $CachedVHD -Destination $TempVHD
 } else {
