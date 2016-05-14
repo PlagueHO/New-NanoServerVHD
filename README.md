@@ -1,27 +1,23 @@
-Powershell
-==========
-
-## New-NanoServerVHD
-Creates a bootable VHD/VHDx containing Windows Server Nano 2016.
+# New-NanoServerVHD
+Creates a bootable VHD/VHDx containing Windows Server Nano 2016 Technical Preview 5.
 
 Note: As of Windows Server 2016 Technical Preview 3, the NanoServer folder in the ISO contains a new-nanoserverimage.ps1 PowerShell script that can also be used to create new Nano Server VHD/VHDx files. This script is the official one provided by Microsoft and so it should be used in any new scripts. I have updated the new-nanoservervhd.ps1 script to support TP3 so that if you have already got scripts using it then you don't have to rewrite them to use the official one (although you probably should).
 
 ### Overview
-Creates a bootable VHD/VHDx containing Windows Server Nano 2016 using the publicly available Windows Server 2016 Technical Preview 3 ISO.
+Creates a bootable VHD/VHDx containing Windows Server Nano 2016 using the publicly available Windows Server 2016 Technical Preview 5 ISO.
 
-This script needs the Convert-WindowsImage.ps1 script to be in the same folder. It can be downloaded from:
-https://raw.githubusercontent.com/PlagueHO/Powershell/master/New-NanoServerVHD/Convert-WindowsImage.ps1
+Windows Server 2016 Technical Preview 5 ISO can be downloaded from the Microsoft Evaluation Center here:
+https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-technical-preview
 
-Note: Due to a bug in the current version of the Convert-WindowsImage.ps1 on Microsoft Script Center, I am hosting a modified copy of this script on GitHub. The unfixed version can be downloaded from:
+DO NOT USE THIS WITH EARLIER VERSIONS OF WINDOWS SERVER 2016 TP4 OR EARLIER.
+
+This script needs the Convert-WindowsImage.ps1 script to be in the same folder. It will be automatically downloaded from if it is not found:
+
+https://github.com/Microsoft/Virtualization-Documentation/blob/master/hyperv-tools/Convert-WindowsImage/Convert-WindowsImage.ps1
+
+Note: Due to a bug in the version of the Convert-WindowsImage.ps1 on Microsoft Script Center, you should use the one from GitHub. The unfixed version can be downloaded from:
 https://gallery.technet.microsoft.com/scriptcenter/Convert-WindowsImageps1-0fe23a8f
-IT WILL NOT CURRENTLY WORK WITH NANO SERVER TP4.
-
-If you recieve the error:
-**ERROR  : The variable cannot be validated because the value $null is not a valid value for the Edition variable**
-This indicates you are using an Unfixed version of the Convert-WindowsImage.ps1 script with Nano Server TP4 - please use the copy hosted at:
-https://raw.githubusercontent.com/PlagueHO/Powershell/master/New-NanoServerVHD/Convert-WindowsImage.ps1
-
-Please make sure you have the 2015-06-16 version of the Convert-WindowsImage.ps1 script. Earlier versions will no longer work!
+IT WILL NOT CURRENTLY WORK WITH NANO SERVER TP4 or above.
 
 This function turns the instructions on the following link into a repeatable script:
 https://technet.microsoft.com/en-us/library/mt126167.aspx
@@ -29,10 +25,11 @@ https://technet.microsoft.com/en-us/library/mt126167.aspx
 Please see the link for additional information.
 
 This script can be found:
-Github Repo: https://github.com/PlagueHO/Powershell/tree/master/New-NanoServerVHD
-Script Center: https://gallery.technet.microsoft.com/scriptcenter/DSC-Tools-c96e2c53
+Github Repo: https://github.com/PlagueHO/New-NanoServerVHD
+Script Center: https://gallery.technet.microsoft.com/scriptcenter/Create-a-New-Nano-Server-61f674f1
 
 ### Change Log
+2016-05-14: Updated to support Windows Server 2016 TP5.
 2015-12-01: Added WorkFolder parameter to override default work folder path.
 2015-11-21: Offline Domain Join support added. Fix to adding SCVMM packages.
 2015-11-20: Ability to cache base NanoServer.VHD/VHDx file to speed up creation of multiple VHD files with different packages/settings.
@@ -54,25 +51,33 @@ Script Center: https://gallery.technet.microsoft.com/scriptcenter/DSC-Tools-c96e
 
 ### License and Copyright
 
-Copyright 2015 Daniel Scott-Raynsford
+The MIT License (MIT)
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+Copyright (c) 2016 Daniel Scott-Raynsford
 
-http://www.apache.org/licenses/LICENSE-2.0
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 
 ### Example Usage
 ```powershell
 .\New-NanoServerVHD.ps1 `
-    -ServerISO 'D:\ISOs\Windows Server 2016 TP4\10586.0.151029-1700.TH2_RELEASE_SERVER_OEMRET_X64FRE_EN-US.ISO' `
+    -ServerISO 'D:\ISOs\Windows Server 2016 TP5\14300.1000.160324-1723.RS1_RELEASE_SVC_SERVER_OEMRET_X64FRE_EN-US.ISO' `
     -DestVHD D:\Temp\NanoServer01.vhd `
     -ComputerName NANOTEST01 `
     -AdministratorPassword 'P@ssword!1' `
@@ -83,7 +88,7 @@ This command will create a new VHD containing a Nano Server machine with the nam
 
 ```powershell
 .\New-NanoServerVHD.ps1 `
-	-ServerISO 'D:\ISOs\Windows Server 2016 TP4\10586.0.151029-1700.TH2_RELEASE_SERVER_OEMRET_X64FRE_EN-US.ISO' `
+	-ServerISO 'D:\ISOs\Windows Server 2016 TP5\14300.1000.160324-1723.RS1_RELEASE_SVC_SERVER_OEMRET_X64FRE_EN-US.ISO' `
 	-DestVHD D:\Temp\NanoServer01.vhd `
 	-ComputerName NANOTEST01 `
 	-AdministratorPassword 'P@ssword!1' `
@@ -99,7 +104,7 @@ This command will create a new VHD containing a Nano Server machine with the nam
 
 ```powershell
 .\New-NanoServerVHD.ps1 `
-	-ServerISO 'D:\ISOs\Windows Server 2016 TP4\10586.0.151029-1700.TH2_RELEASE_SERVER_OEMRET_X64FRE_EN-US.ISO' `
+	-ServerISO 'D:\ISOs\Windows Server 2016 TP5\14300.1000.160324-1723.RS1_RELEASE_SVC_SERVER_OEMRET_X64FRE_EN-US.ISO' `
 	-DestVHD D:\Temp\NanoServer02.vhdx `
 	-VHDFormat VHDX `
 	-ComputerName NANOTEST02 `
@@ -114,7 +119,7 @@ This command will create a new VHDx (for Generation 2 VMs) containing a Nano Ser
 
 ```powershell
 .\New-NanoServerVHD.ps1 `
-	-ServerISO 'D:\ISOs\Windows Server 2016 TP4\10586.0.151029-1700.TH2_RELEASE_SERVER_OEMRET_X64FRE_EN-US.ISO' `
+	-ServerISO 'D:\ISOs\Windows Server 2016 TP5\14300.1000.160324-1723.RS1_RELEASE_SVC_SERVER_OEMRET_X64FRE_EN-US.ISO' `
 	-DestVHD D:\Temp\NanoServer03.vhdx `
 	-VHDFormat VHDX `
 	-ComputerName NANOTEST03 `
