@@ -1,10 +1,10 @@
-﻿<#   
+﻿<#
     .SYNOPSIS
         Creates a bootable VHD/VHDx containing Windows Server Nano 2016 TP5
 
     .DESCRIPTION
         Creates a bootable VHD/VHDx containing Windows Server Nano 2016 using the publically available Windows Server 2016 Technical Preview 5 ISO.
-        
+
         DO NOT USE THIS WITH EARLIER VERSIONS OF WINDOWS SERVER 2016 TP4 OR EARLIER.
 
         This script needs the Convert-WindowsImage.ps1 script to be in the same folder. It will be automatically downloaded from if it is not found:
@@ -62,14 +62,14 @@
 
     .PARAMETER SubnetMask
     This is the the subnet mask to use with the static IP address to assign to the first ethernet card
-    in this Nano Server. Should only be passed if IPAddress is provided. Defaults to 255.255.255.0. 
+    in this Nano Server. Should only be passed if IPAddress is provided. Defaults to 255.255.255.0.
 
     .PARAMETER GatewayAddress
-    This is the gateway IP address to assign to the first ethernet card in this Nano Server if static IP Address is 
+    This is the gateway IP address to assign to the first ethernet card in this Nano Server if static IP Address is
     being used. Should only be passed if IPAddress is provided.
 
     .PARAMETER DNSAddresses
-    These are the DNS Serverer addresses to assign to the first ethernet card in this Nano Server if static IP Address 
+    These are the DNS Serverer addresses to assign to the first ethernet card in this Nano Server if static IP Address
     is being used. Should only be passed if IPAddress is provided.
 
     .PARAMETER RegisteredOwner
@@ -100,7 +100,7 @@
     This is the full path to the offline domain join blob file to use to join this server to the domain. The domain join
     File can be created manually by executing:
     DJOIN /provision /domain CONTOSO.COM /machine NANO01 /savefile c:\DJOIN_NANO01.TXT
-    
+
     .PARMATER WorkFolder
     This is the path that this script will use to store temporary work files while creating the Nano Server VHD/VHDx.
     It defaults to %TEMP%\NanoSever if this parameter is not passed. If there is not enough space in your %TEMP% folder
@@ -210,7 +210,7 @@ Param (
 
     [ValidateNotNullOrEmpty()]
     [String]$Edition = 'Windows Server 2016 Technical Preview 5 SERVERSTANDARDNANO',
-        
+
     [ValidateNotNullOrEmpty()]
     [String]$Timezone = 'Pacific Standard Time',
 
@@ -219,9 +219,9 @@ Param (
 
     [ValidateNotNullOrEmpty()]
     [String]$DJoinFile,
-    
+
     [ValidateNotNullOrEmpty()]
-    [String]$WorkFolder = $ENV:Temp 
+    [String]$WorkFolder = $ENV:Temp
 )
 
 If (-not (Test-Path -Path .\Convert-WindowsImage.ps1 -PathType Leaf)) {
@@ -257,7 +257,7 @@ If ($IPaddress)
     # Defining these as variables in case at some point need to allow them to be overridden.
     $InterfaceAlias = 'Ethernet'
     $AddressFamiyly = 'IPv4'
-    # For some reason setting this stuff via powershell doesn't work - so use NETSH.    
+    # For some reason setting this stuff via powershell doesn't work - so use NETSH.
     If ($GatewayAddress)
     {
         if(!([System.Net.Ipaddress]::TryParse($GatewayAddress, [ref]0)))
@@ -347,7 +347,7 @@ if ($CacheFolder) {
         -VHD $TempVHD `
         –VHDFormat $VHDFormat `
         -Edition $Edition `
-        -VHDPartitionStyle $VHDPartitionStyle
+        -DiskLayout $DiskLayout
 }
 
 
