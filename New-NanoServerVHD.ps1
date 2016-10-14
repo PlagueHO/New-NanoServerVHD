@@ -1,11 +1,9 @@
 ﻿<#
     .SYNOPSIS
-        Creates a bootable VHD/VHDx containing Windows Server Nano 2016 TP5
+        Creates a bootable VHD/VHDx containing Windows Server Nano 2016 RTM
 
     .DESCRIPTION
-        Creates a bootable VHD/VHDx containing Windows Server Nano 2016 using the publically available Windows Server 2016 Technical Preview 5 ISO.
-
-        DO NOT USE THIS WITH EARLIER VERSIONS OF WINDOWS SERVER 2016 TP4 OR EARLIER.
+        Creates a bootable VHD/VHDx containing Windows Server Nano 2016 using the publically available Windows Server 2016 RTM ISO.
 
         This script needs the Convert-WindowsImage.ps1 script to be in the same folder. It will be automatically downloaded from if it is not found:
         https://raw.githubusercontent.com/PlagueHO/New-NanoServerVHD/master/Convert-WindowsImage.ps1
@@ -19,8 +17,8 @@
         Github Repo: https://github.com/PlagueHO/New-NanoServerVHD
 
     .PARAMETER ServerISO
-    This is the path to the Windows Server 2016 Technical Preview 5 ISO downloaded from:
-    https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-technical-preview
+    This is the path to the Windows Server 2016 RTM ISO downloaded from:
+    https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016
 
     .PARAMETER DestVHD
     This is the path and name of the new Nano Server VHD.
@@ -29,7 +27,7 @@
     Specifies whether to create a VHD or VHDX formatted Virtual Hard Disk. The default is VHD.
 
     .PARAMETER Packages
-    This is a list of the packages to install in this Nano Server. As of TP5 the available packages are:
+    This is a list of the packages to install in this Nano Server. As of RTM the available packages are:
     Compute = Hyper-V Server
     OEM-Drivers = Standard OEM Drivers
     Storage = Storage Server
@@ -82,11 +80,11 @@
     Allows the content of the Unattended.XML file to be overridden. Provide the content of a new Unattended.XML file in this parameter.
 
     .PARAMETER Edition
-    This is the index name of the edition to install from the NanoServer.WIM. It defaults to 'Windows Server 2016 Technical Preview 5 SERVERSTANDARDNANO'.
+    This is the index name of the edition to install from the NanoServer.WIM. It defaults to 'Windows Server 2016 SERVERSTANDARDNANO'.
 
-    As of TP5, there are two versions in the NanoServer.WIM:
-    Windows Server 2016 Technical Preview 5 SERVERSTANDARDNANO
-    Windows Server 2016 Technical Preview 5 SERVERDATACENTERNANO
+    As of RTM, there are two versions in the NanoServer.WIM:
+    Windows Server 2016 SERVERSTANDARDNANO
+    Windows Server 2016 SERVERDATACENTERNANO
 
     .PARAMETER Timezone
     This is the timezone the new NanoServer will be set to. If not provided it will default to Pacific Standard Time.
@@ -108,7 +106,7 @@
 
     .EXAMPLE
         .\New-NanoServerVHD.ps1 `
-            -ServerISO 'D:\ISOs\Windows Server 2016 TP5\14300.1000.160324-1723.RS1_RELEASE_SVC_SERVER_OEMRET_X64FRE_EN-US.ISO' `
+            -ServerISO 'D:\ISOs\Windows Server 2016\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO' `
             -DestVHD D:\Temp\NanoServer01.vhd `
             -ComputerName NANOTEST01 `
             -AdministratorPassword 'P@ssword!1' `
@@ -125,7 +123,7 @@
 
     .EXAMPLE
         .\New-NanoServerVHD.ps1 `
-            -ServerISO 'D:\ISOs\Windows Server 2016 TP5\14300.1000.160324-1723.RS1_RELEASE_SVC_SERVER_OEMRET_X64FRE_EN-US.ISO' `
+            -ServerISO 'D:\ISOs\Windows Server 2016\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO' `
             -DestVHD D:\Temp\NanoServer02.vhdx `
             -VHDFormat VHDX `
             -ComputerName NANOTEST02 `
@@ -139,7 +137,7 @@
 
     .EXAMPLE
         .\New-NanoServerVHD.ps1 `
-            -ServerISO 'D:\ISOs\Windows Server 2016 TP5\14300.1000.160324-1723.RS1_RELEASE_SVC_SERVER_OEMRET_X64FRE_EN-US.ISO' `
+            -ServerISO 'D:\ISOs\Windows Server 2016\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO' `
             -DestVHD D:\Temp\NanoServer03.vhdx `
             -VHDFormat VHDX `
             -ComputerName NANOTEST03 `
@@ -154,7 +152,7 @@
         a domain using the Offline Domain Join file D:\Temp\DJOIN_NANOTEST03.TXT.
 
     .LINK
-    https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-technical-preview
+    https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016
 
     .LINK
     https://technet.microsoft.com/en-us/library/mt126167.aspx
@@ -209,7 +207,7 @@ Param (
     [String]$UnattendedContent,
 
     [ValidateNotNullOrEmpty()]
-    [String]$Edition = 'Windows Server 2016 Technical Preview 5 SERVERSTANDARDNANO',
+    [String]$Edition = 'Windows Server 2016 SERVERDATACENTERNANO',
 
     [ValidateNotNullOrEmpty()]
     [String]$Timezone = 'Pacific Standard Time',
@@ -347,7 +345,7 @@ if ($CacheFolder) {
         -VHD $TempVHD `
         –VHDFormat $VHDFormat `
         -Edition $Edition `
-        -DiskLayout $DiskLayout
+        -VHDPartitionStyle $VHDPartitionStyle
 }
 
 

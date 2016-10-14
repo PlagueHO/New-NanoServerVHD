@@ -1,15 +1,13 @@
 # New-NanoServerVHD
-Creates a bootable VHD/VHDx containing Windows Server Nano 2016 Technical Preview 5.
+Creates a bootable VHD/VHDx containing Windows Server Nano 2016 RTM.
 
 _Note: As of Windows Server 2016 Technical Preview 3, the NanoServer folder in the ISO contains a new-nanoserverimage.ps1 PowerShell script that can also be used to create new Nano Server VHD/VHDx files. This script is the official one provided by Microsoft and so it should be used in any new scripts. I have updated the new-nanoservervhd.ps1 script to support TP3 so that if you have already got scripts using it then you don't have to rewrite them to use the official one (although you probably should)._
 
 ### Overview
-Creates a bootable VHD/VHDx containing Windows Server Nano 2016 using the publicly available Windows Server 2016 Technical Preview 5 ISO.
+Creates a bootable VHD/VHDx containing Windows Server Nano 2016 using the publicly available Windows Server 2016 RTM ISO.
 
 Windows Server 2016 Technical Preview 5 ISO can be downloaded from the Microsoft Evaluation Center here:
-https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-technical-preview
-
-DO NOT USE THIS WITH EARLIER VERSIONS OF WINDOWS SERVER 2016 TP4 OR EARLIER.
+https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016
 
 This script needs the Convert-WindowsImage.ps1 script to be in the same folder.
 **It will be automatically downloaded from GitHub if it is not found:**
@@ -26,6 +24,7 @@ This script can be found:
 - Script Center: https://gallery.technet.microsoft.com/scriptcenter/Create-a-New-Nano-Server-61f674f1
 
 ## Change Log
+- 2016-10-14: Updated to support Windows Server 2016.
 - 2016-05-14: Updated to support Windows Server 2016 TP5.
 - 2015-12-01: Added WorkFolder parameter to override default work folder path.
 - 2015-11-21: Offline Domain Join support added. Fix to adding SCVMM packages.
@@ -37,7 +36,7 @@ This script can be found:
 - 2015-07-24: Updated setup complete script to create a task that shows the IP Address of the Nano Server in the console window 30 seconds after boot.
 - 2015-06-19: Updated to support changes in Convert-WindowsImage on 2015-06-16.
 - 2015-06-19: Added VHDFormat parameter to allow VHDx files to be created.
-- 2015-06-19: Added Edition parameter (defaults to CORESYSTEMSERVER_INSTALL) so that the Name of the edition in the NanoServer.WIM can be specified. 
+- 2015-06-19: Added Edition parameter (defaults to CORESYSTEMSERVER_INSTALL) so that the Name of the edition in the NanoServer.WIM can be specified.
 - 2015-06-19: Because of changes in Convert-WindowsImage, VHDx files are always created using the GPT partition format. VHD files are still created using MBR partition format.
 - 2015-06-05: Fix to Unattend.xml to correctly set Server Name in OfflineServicing phase.
 
@@ -74,7 +73,7 @@ SOFTWARE.
 ## Example Usage
 ```powershell
 .\New-NanoServerVHD.ps1 `
-    -ServerISO 'D:\ISOs\Windows Server 2016 TP5\14300.1000.160324-1723.RS1_RELEASE_SVC_SERVER_OEMRET_X64FRE_EN-US.ISO' `
+    -ServerISO 'D:\ISOs\Windows Server 2016\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO' `
     -DestVHD D:\Temp\NanoServer01.vhd `
     -ComputerName NANOTEST01 `
     -AdministratorPassword 'P@ssword!1' `
@@ -85,7 +84,7 @@ This command will create a new VHD containing a Nano Server machine with the nam
 
 ```powershell
 .\New-NanoServerVHD.ps1 `
-	-ServerISO 'D:\ISOs\Windows Server 2016 TP5\14300.1000.160324-1723.RS1_RELEASE_SVC_SERVER_OEMRET_X64FRE_EN-US.ISO' `
+	-ServerISO 'D:\ISOs\Windows Server 2016\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO' `
 	-DestVHD D:\Temp\NanoServer01.vhd `
 	-ComputerName NANOTEST01 `
 	-AdministratorPassword 'P@ssword!1' `
@@ -101,7 +100,7 @@ This command will create a new VHD containing a Nano Server machine with the nam
 
 ```powershell
 .\New-NanoServerVHD.ps1 `
-	-ServerISO 'D:\ISOs\Windows Server 2016 TP5\14300.1000.160324-1723.RS1_RELEASE_SVC_SERVER_OEMRET_X64FRE_EN-US.ISO' `
+	-ServerISO 'D:\ISOs\Windows Server 2016\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO' `
 	-DestVHD D:\Temp\NanoServer02.vhdx `
 	-VHDFormat VHDX `
 	-ComputerName NANOTEST02 `
@@ -116,7 +115,7 @@ This command will create a new VHDx (for Generation 2 VMs) containing a Nano Ser
 
 ```powershell
 .\New-NanoServerVHD.ps1 `
-	-ServerISO 'D:\ISOs\Windows Server 2016 TP5\14300.1000.160324-1723.RS1_RELEASE_SVC_SERVER_OEMRET_X64FRE_EN-US.ISO' `
+	-ServerISO 'D:\ISOs\Windows Server 2016\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO' `
 	-DestVHD D:\Temp\NanoServer03.vhdx `
 	-VHDFormat VHDX `
 	-ComputerName NANOTEST03 `
