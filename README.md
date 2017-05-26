@@ -8,15 +8,12 @@ _Note: As of Windows Server 2016 Technical Preview 3, the NanoServer folder in t
 
 Creates a bootable VHD/VHDx containing Windows Server Nano 2016 using the publicly available Windows Server 2016 RTM ISO.
 
-Windows Server 2016 RTM ISO can be downloaded from the Microsoft Evaluation Center here[https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016)
+Windows Server 2016 RTM ISO can be downloaded from the Microsoft Evaluation Center here: [https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016)
 
 This script needs the Convert-WindowsImage.ps1 script to be in the same folder.
-**It will be automatically downloaded from GitHub if it is not found:**
+**It will be automatically downloaded from GitHub if it is not found:** [https://raw.githubusercontent.com/PlagueHO/New-NanoServerVHD/master/Convert-WindowsImage.ps1](https://raw.githubusercontent.com/PlagueHO/New-NanoServerVHD/master/Convert-WindowsImage.ps1)
 
-[https://raw.githubusercontent.com/PlagueHO/New-NanoServerVHD/master/Convert-WindowsImage.ps1](https://raw.githubusercontent.com/PlagueHO/New-NanoServerVHD/master/Convert-WindowsImage.ps1)
-
-This function turns the instructions on the following link into a repeatable script:
-[https://technet.microsoft.com/en-us/library/mt126167.aspx](https://technet.microsoft.com/en-us/library/mt126167.aspx)
+This function turns the instructions on the following link into a repeatable script: [https://technet.microsoft.com/en-us/library/mt126167.aspx](https://technet.microsoft.com/en-us/library/mt126167.aspx)
 
 Please see the link for additional information.
 
