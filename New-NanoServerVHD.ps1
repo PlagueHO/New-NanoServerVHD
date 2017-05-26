@@ -345,7 +345,7 @@ if ($CacheFolder) {
         -VHD $TempVHD `
         –VHDFormat $VHDFormat `
         -Edition $Edition `
-        -VHDPartitionStyle $VHDPartitionStyle
+        -DiskLayout $DiskLayout
 }
 
 
